@@ -1,1 +1,24 @@
-
+{
+  "name": "goviral-agent",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Evidence-first research and AI video production workspace for Real_bharat_404",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "node --test",
+    "research:daily": "node scripts/daily-research.mjs"
+  },
+  "dependencies": {
+    "next": "15.5.4",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.35.0",
+    "eslint-config-next": "15.5.4",
+    "@eslint/eslintrc": "^3.3.1"
+  }
+}
