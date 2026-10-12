@@ -1,15 +1,16 @@
+
 {
   "name": "goviral-agent",
   "version": "1.0.0",
   "private": true,
   "description": "Research-first Instagram growth and AI video workspace for Real_bharat_404",
   "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
-  "test": "node --test",
-  "research:daily": "node scripts/daily-research.mjs"
-}
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "node --test",
+    "research:daily": "node scripts/daily-research.mjs"
+  },
   "dependencies": {
     "next": "^15.5.4",
     "react": "^19.1.1",
