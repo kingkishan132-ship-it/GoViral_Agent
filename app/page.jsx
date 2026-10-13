@@ -73,22 +73,91 @@ export default function Home() {
     return rows.sort((a,b) => sort === 'score' ? (b.score || 0) - (a.score || 0) : new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0));
   }, [topics, query, sort]);
 
-  const runResearch = useCallback(async () => {
-    setResearching(true); setResearchError('');
+  
+const runResearch = useCallback(async () => {
+  setResearching(true);
+  setResearchError('');
+
+  try {
+    const response = await fetch('/api/research', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+      body: JSON.stringify({}),
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(
+        data.detail || data.error ||
+        `Research request failed (HTTP ${response.status})`
+      );
+    }
+
+    const sorted = Array.isArray(data.topics)
+      ? [...data.topics].sort(
+          (a, b) => (b.score || 0) - (a.score || 0)
+        )
+      : [];
+
+    const meta = {
+      generatedAt: data.generatedAt,
+      totalFetched: data.totalFetched ?? 0,
+      totalAfterDeduplication:
+        data.totalAfterDeduplication ?? sorted.length,
+      sourcesUsed: data.sourcesUsed || [],
+      errors: data.errors || [],
+      notes: data.notes || [],
+    };
+
+    setResearchMeta(meta);
+
     try {
-      const response = await fetch('/api/research', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Research request failed');
-      const sorted = (data.topics || []).sort((a,b) => (b.score || 0) - (a.score || 0));
-      if (!sorted.length) throw new Error('No sources returned. Check your network or add RSS feeds in the repository environment.');
-      setTopics(sorted); setSelectedId(sorted[0]?.id || null);
-      const meta = { generatedAt: data.generatedAt, totalFetched: data.totalFetched, totalAfterDeduplication: data.totalAfterDeduplication, sourcesUsed: data.sourcesUsed, errors: data.errors || [], notes: data.notes || [] };
-      setResearchMeta(meta);
-      try { localStorage.setItem('goviral-topics', JSON.stringify(sorted)); localStorage.setItem('goviral-research-meta', JSON.stringify(meta)); } catch {}
-      setActive('research');
-    } catch (error) { setResearchError(error?.message || 'Research failed. Try again.'); }
-    finally { setResearching(false); }
-  }, []);
+      localStorage.setItem(
+        'goviral-research-meta',
+        JSON.stringify(meta)
+      );
+    } catch {}
+
+    if (!sorted.length) {
+      setTopics([]);
+      setSelectedId(null);
+      try {
+        localStorage.removeItem('goviral-topics');
+      } catch {}
+
+      const details = (data.errors || [])
+        .map((item) => item.message)
+        .filter(Boolean)
+        .slice(0, 2)
+        .join(' | ');
+
+      throw new Error(
+        details ||
+        'Research returned zero topics. Check the API response and source availability.'
+      );
+    }
+
+    setTopics(sorted);
+    setSelectedId(sorted[0].id);
+
+    try {
+      localStorage.setItem(
+        'goviral-topics',
+        JSON.stringify(sorted)
+      );
+    } catch {}
+
+    setActive('research');
+  } catch (error) {
+    setResearchError(
+      error?.message || 'Research failed. Please try again.'
+    );
+  } finally {
+    setResearching(false);
+  }
+}, []);
 
   const createPlan = (topic = selectedTopic) => {
     if (!topic) return;
