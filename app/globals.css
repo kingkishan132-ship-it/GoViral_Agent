@@ -15,3 +15,247 @@
 @media(max-width:930px){.app-shell{grid-template-columns:1fr}.sidebar{position:fixed;left:0;top:0;bottom:0;width:270px;transform:translateX(-102%);transition:transform .22s ease;box-shadow:20px 0 40px rgba(0,0,0,.15)}.sidebar.sidebar-open{transform:translateX(0)}.mobile-close{display:block;margin-left:auto;background:transparent;border:0;color:#dbe4d8;font-size:24px}.mobile-menu{display:inline-flex}.topbar{gap:10px}.breadcrumb{gap:7px;font-size:9px}.hero-grid{grid-template-columns:1.1fr .9fr}.hero-stamp{min-height:190px}.stamp-main{margin-top:22px}.research-layout,.studio-grid{grid-template-columns:1fr}.evidence-panel,.ai-video-panel{position:static}.topic-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.bottom-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:680px){.topbar{height:62px;padding:0 15px}.breadcrumb span{display:none}.breadcrumb b{display:none}.breadcrumb strong{font-size:9px}.date-pill{display:none}.hero-section{padding:27px 18px 21px}.hero-grid{grid-template-columns:1fr}.hero-grid h1{font-size:39px;letter-spacing:-2.2px}.hero-subtitle{font-size:12px;margin:15px 0 19px}.hero-stamp{justify-self:stretch;max-width:none;min-height:170px;margin-top:6px}.stamp-main{font-size:31px;margin-top:18px}.stamp-bottom{bottom:13px}.metrics-grid{grid-template-columns:1fr 1fr;padding:0 15px;gap:8px;margin-top:15px}.metric-card{padding:13px}.metric-head{font-size:8px;letter-spacing:.7px}.metric-value{font-size:24px;margin-top:11px}.metric-detail{font-size:9px}.section-block{padding:32px 15px 0}.section-heading h2{font-size:20px}.section-heading p{font-size:11px}.topic-grid{grid-template-columns:1fr;gap:10px}.topic-card{padding:16px 15px 0}.topic-create{margin-left:-15px;margin-right:-15px;padding:12px 15px}.bottom-grid{grid-template-columns:1fr;padding:18px 15px 25px}.page-section{padding:25px 15px 30px}.page-title{display:block}.page-title h1{font-size:32px;letter-spacing:-1.6px}.page-title p{font-size:11px}.page-title-action{margin-top:14px}.research-toolbar{flex-direction:column}.research-toolbar select{width:100%}.feed-summary{gap:8px 13px}.research-row{padding:12px;gap:8px}.research-row-copy>strong{font-size:12px}.research-row .score-ring{width:29px;height:29px}.research-row .score-ring b{font-size:10px}.research-layout{gap:12px}.panel{padding:16px}.studio-editor{padding:16px}.studio-editor .panel-heading{display:block}.studio-editor .panel-chip{display:inline-block;margin-top:10px}.form-row{grid-template-columns:1fr 1fr;gap:8px}.form-row select{padding:0 8px;font-size:10px}.form-actions{grid-template-columns:1fr 1fr}.form-actions .button{white-space:normal}.scene-row{grid-template-columns:56px 1fr;gap:10px}.ai-video-panel{padding:16px}.planner-banner{padding:18px}.planner-banner h3{font-size:19px}.planner-badge{width:60px;height:60px}.week-row{gap:10px;padding:12px}.week-day{width:55px;padding-right:8px}.week-day b{font-size:10px}.week-main h3{font-size:12px}.week-main p{font-size:9px}.icon-button{width:30px;height:30px}.import-panel{display:block}.upload-button{margin-top:14px}.analytics-metrics{padding:0;grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}.site-footer{padding:18px 15px 22px;display:block;line-height:1.7}.site-footer>div{display:grid;gap:5px}.site-footer>span{display:block;margin-top:9px}.hero-actions .button{font-size:10px;padding:11px 10px}.workflow-row{gap:9px}.workflow-row>div span{font-size:9px}.workflow-state{font-size:8px}.status-row{font-size:9px}.status-row b{max-width:54%;line-height:1.5}.page-title-action .button{white-space:normal}.video-config-note{font-size:9px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* ==========================================
+   GOVIRAL AGENT — MOTION DESIGN SYSTEM
+   Premium, restrained, accessibility-aware
+========================================== */
+
+:root {
+  --motion-fast: 160ms;
+  --motion-base: 240ms;
+  --motion-smooth: cubic-bezier(.22, 1, .36, 1);
+  --motion-enter: cubic-bezier(.16, 1, .3, 1);
+}
+
+/* Page elements arrive with a subtle, unified motion */
+@keyframes gv-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gv-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes gv-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gv-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(216, 243, 106, .22);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(216, 243, 106, 0);
+  }
+}
+
+@keyframes gv-scan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  15% { opacity: .45; }
+  85% { opacity: .28; }
+  100% { transform: translateY(260px); opacity: 0; }
+}
+
+/* Hero: intelligent, but not distracting */
+.hero-section {
+  isolation: isolate;
+  animation: gv-enter 650ms var(--motion-enter) both;
+}
+
+.hero-stamp {
+  isolation: isolate;
+  border-radius: 10px;
+  box-shadow: 0 20px 55px rgba(25, 39, 34, .12);
+}
+
+.hero-stamp::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 70px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(216, 243, 106, .10),
+    transparent
+  );
+  animation: gv-scan 7s ease-in-out infinite;
+}
+
+.stamp-circle {
+  transform-origin: center;
+  animation: gv-float 6s ease-in-out infinite;
+}
+
+.stamp-circle::before {
+  animation: gv-orbit 22s linear infinite;
+}
+
+.stamp-circle::after {
+  animation: gv-orbit 16s linear infinite reverse;
+}
+
+.stamp-main {
+  animation: gv-enter 700ms var(--motion-enter) 100ms both;
+}
+
+/* Cards: staggered entry and restrained depth */
+.metric-card,
+.topic-card,
+.panel,
+.week-row,
+.research-row {
+  animation: gv-enter 480ms var(--motion-enter) both;
+}
+
+.metric-card:nth-child(2),
+.topic-card:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.metric-card:nth-child(3),
+.topic-card:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.metric-card:nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.metric-card,
+.topic-card,
+.panel,
+.research-row,
+.week-row {
+  transition:
+    transform var(--motion-base) var(--motion-smooth),
+    box-shadow var(--motion-base) ease,
+    border-color var(--motion-base) ease,
+    background-color var(--motion-base) ease;
+}
+
+.metric-card:hover,
+.topic-card:hover,
+.week-row:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(25, 39, 34, .075);
+}
+
+.research-row:hover {
+  transform: translateX(3px);
+}
+
+/* Buttons: tactile feedback */
+.button,
+.nav-item,
+.icon-button,
+.topic-create,
+.text-link {
+  transition:
+    transform var(--motion-fast) var(--motion-smooth),
+    box-shadow var(--motion-fast) ease,
+    background-color var(--motion-fast) ease,
+    color var(--motion-fast) ease;
+}
+
+.button:active:not(:disabled),
+.icon-button:active,
+.topic-create:active {
+  transform: scale(.98);
+}
+
+.button:focus-visible,
+.nav-item:focus-visible,
+.icon-button:focus-visible,
+.text-link:focus-visible {
+  outline: 3px solid rgba(95, 130, 78, .65);
+  outline-offset: 3px;
+}
+
+/* Live status indicators */
+.live-dot,
+.status-dot,
+.status-mini.good {
+  animation: gv-pulse 2.8s ease-out infinite;
+}
+
+.sidebar {
+  box-shadow: 8px 0 30px rgba(25, 39, 34, .025);
+}
+
+.nav-item.nav-active {
+  box-shadow: 0 5px 16px rgba(216, 243, 106, .10);
+}
+
+/* Video studio: subtle ambient motion */
+.ai-video-top {
+  border: 1px solid rgba(216, 243, 106, .10);
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(74, 113, 79, .38),
+      transparent 65%
+    ),
+    #1c3429;
+}
+
+.video-orbit {
+  animation: gv-float 4.5s ease-in-out infinite;
+}
+
+.video-orbit i {
+  animation: gv-orbit 8s linear infinite;
+}
+
+.video-orbit b {
+  animation: gv-orbit 11s linear infinite reverse;
+}
+
+/* Clean loading affordance for disabled action buttons */
+.button:disabled {
+  cursor: progress;
+  filter: saturate(.75);
+}
+
+/* Mobile: lighter movement, no horizontal page overflow */
+@media (max-width: 680px) {
+  .hero-stamp {
+    border-radius: 8px;
+  }
+
+  .metric-card:hover,
+  .topic-card:hover,
+  .week-row:hover {
+    transform: translateY(-1px);
+  }
+
+  .research-row:hover {
+    transform: none;
+  }
+}
+
+/* Respect the visitor's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
