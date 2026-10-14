@@ -232,7 +232,88 @@ const valid = posts;
     <section className="main-column">
       <header className="topbar"><button className="mobile-menu" onClick={() => setMenuOpen(true)} aria-label="Open navigation">☰</button><div className="breadcrumb"><span>CREATOR WORKSPACE</span><b>/</b><strong>{NAV.find(n => n.id === active)?.label || 'Overview'}</strong></div><div className="topbar-actions"><span className="date-pill"><span>●</span> {new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'short', day: 'numeric', month: 'short' })}</span><button className="avatar-small" title="Real_bharat_404" onClick={() => setActive('settings')}>404</button></div></header>
       {active === 'overview' && <>
-        <section className="hero-section"><div className="hero-eyebrow"><span className="eyebrow-line"/> YOUR DAILY EDITORIAL INTELLIGENCE</div><div className="hero-grid"><div><h1>Find the story.<br/><em>Prove the story.</em></h1><p className="hero-subtitle">A research-first content command center for Real_bharat_404. Discover leads, check evidence, shape a reel, then produce.</p><div className="hero-actions"><button className="button button-primary" onClick={runResearch} disabled={researching}><Icon>{researching ? '◌' : '⌕'}</Icon>{researching ? 'Researching sources…' : 'Run live research'}<span>↗</span></button><button className="button button-quiet" onClick={() => setActive('studio')}>Open video studio <span>→</span></button></div>{researchError && <p className="error-inline">{researchError}</p>}</div><div className="hero-stamp"><div className="stamp-top">EDITORIAL SYSTEM <span>• 01</span></div><div className="stamp-main">HISTORY<br/><i>IS EVIDENCE.</i></div><div className="stamp-bottom"><span>INDEPENDENT SOURCES</span><span>REAL CONTEXT</span></div><div className="stamp-circle">GV</div></div></div></section>
+       
+<section className={`agent-command ${researching || videoBusy ? 'agent-command-active' : ''}`}>
+  <div className="agent-command-top">
+    <div className="agent-command-label">
+      <span className={`agent-status-light ${researching || videoBusy ? 'agent-is-busy' : ''}`} />
+      <span>GOVIRAL INTELLIGENCE</span>
+      <span className="agent-command-divider">/</span>
+      <span>AGENT CORE 01</span>
+    </div>
+    <span className="agent-command-mode">
+      {researching ? 'ANALYSING SOURCES' : videoBusy ? 'PRODUCTION RUNNING' : 'SYSTEM STANDBY'}
+    </span>
+  </div>
+
+  <div className="agent-command-main">
+    <div className={`agent-reactor ${researching || videoBusy ? 'reactor-active' : ''}`} aria-hidden="true">
+      <div className="reactor-orbit reactor-orbit-a"><i /></div>
+      <div className="reactor-orbit reactor-orbit-b"><i /></div>
+      <div className="reactor-orbit reactor-orbit-c" />
+      <div className="reactor-core"><span>GV</span><b /></div>
+      <span className="reactor-node reactor-node-a" />
+      <span className="reactor-node reactor-node-b" />
+      <div className="reactor-scan" />
+    </div>
+
+    <div className="agent-command-copy">
+      <div className="agent-command-kicker">YOUR CREATIVE INTELLIGENCE, IN MOTION</div>
+      <h1>
+        {researching ? <>Following the evidence.<br /><em>Finding the signal.</em></> :
+         videoBusy ? <>Building the visual.<br /><em>Shaping the story.</em></> :
+         script ? <>Your story is taking shape.<br /><em>Let's make it matter.</em></> :
+         <>Find the signal.<br /><em>Make it a story.</em></>}
+      </h1>
+      <p>
+        {researching
+          ? 'The research engine is collecting public-source leads. Results appear when the request finishes.'
+          : videoBusy
+          ? 'Your video provider is processing a production job. Its actual returned status will be shown.'
+          : 'Discover ideas, check evidence and turn your point of view into publish-ready content.'}
+      </p>
+
+      <div className="agent-command-actions">
+        <button className="button button-primary" onClick={runResearch} disabled={researching}>
+          {researching ? 'Investigating…' : 'Start intelligence scan'} <span>↗</span>
+        </button>
+        <button className="button button-quiet" onClick={() => setActive('studio')}>
+          Enter video studio <span>→</span>
+        </button>
+      </div>
+
+      {researchError && <p className="agent-command-error" role="alert">{researchError}</p>}
+
+      <div className="agent-capabilities">
+        <span><i /> SOURCE-LED RESEARCH</span>
+        <span><i /> HUMAN-REVIEWED STORIES</span>
+        <span><i /> CREATOR CONTROL</span>
+      </div>
+    </div>
+  </div>
+
+  <div className="agent-command-bottom">
+    <div>
+      <span className="agent-bottom-label">CURRENT TASK</span>
+      <b>{researching ? 'Researching public sources' : videoBusy ? 'Video generation in progress' : researchMeta ? 'Research workspace ready' : 'Waiting for your direction'}</b>
+    </div>
+    <div>
+      <span className="agent-bottom-label">WORKFLOW</span>
+      <b>
+        <span className={researchMeta ? 'agent-step-done' : ''}>01 Research</span>
+        <i>→</i>
+        <span className={script ? 'agent-step-done' : ''}>02 Story</span>
+        <i>→</i>
+        <span className={videoJob?.status === 'succeeded' || videoJob?.status === 'successful' ? 'agent-step-done' : ''}>03 Produce</span>
+      </b>
+    </div>
+    <div className="agent-signal">
+      <span className="agent-signal-bars"><i /><i /><i /><i /><i /></span>
+      <span>{researching || videoBusy ? 'AGENT ACTIVE' : 'READY ON DEMAND'}</span>
+    </div>
+  </div>
+</section>
+
         <section className="metrics-grid"><Metric label="RESEARCH LEADS" value={topics.filter(t => !String(t.id).startsWith('demo-')).length || '—'} detail={researchMeta?.generatedAt ? `Updated ${formatDate(researchMeta.generatedAt)}` : 'Run research to populate'} icon="⌕"/><Metric label="TOP OPPORTUNITY" value={topics.length ? `${Math.max(...topics.map(t => t.score || 0))}/100` : '—'} detail="Heuristic, not a viral prediction" icon="↗"/><Metric label="SAVED DRAFTS" value={drafts.length} detail="Saved in this browser" icon="▤"/><Metric label="POSTS ANALYSED" value={stats.count || '—'} detail={stats.count ? `${stats.averageViews.toLocaleString()} avg views` : 'Import your metrics CSV'} icon="◫"/></section>
         <section className="section-block"><div className="section-heading"><div><div className="overline">01 / OPPORTUNITY RADAR</div><h2>Stories worth a closer look</h2><p>Top-ranked research leads from the latest available topic set.</p></div><button className="text-link" onClick={() => setActive('research')}>All research <span>→</span></button></div><div className="topic-grid">{topics.slice(0,3).map((t,i)=><TopicCard key={t.id || t.title} topic={t} index={i} onSelect={() => { setSelectedId(t.id); setActive('research'); }} onPlan={() => { setSelectedId(t.id); const p=createLocalPlan(t,language); setScript(p); setVideoPrompt(p.videoPrompt); localStorage.setItem('goviral-script',JSON.stringify(p)); setActive('studio'); }}/>)}</div>{topics.every(t => String(t.id).startsWith('demo-')) && <div className="demo-note"><span>i</span><div><strong>These are illustrative cards, not live research.</strong><p>Tap “Run live research” to replace examples with source results from public MediaWiki search and any configured RSS feeds.</p></div></div>}</section>
         <section className="bottom-grid"><div className="panel workflow-panel"><div className="panel-heading"><div><div className="overline">02 / WORKFLOW</div><h3>From lead to finished reel</h3></div><span className="panel-chip">5 steps</span></div><div className="workflow-list">{[{n:'01',title:'Collect sources',sub:'RSS feeds + public reference search',done:!!researchMeta},{n:'02',title:'Review the evidence',sub:'Open each link; verify important claims',done:false},{n:'03',title:'Build the storyboard',sub:'Hook, narration and scene-by-scene plan',done:!!script},{n:'04',title:'Generate AI video',sub:'Requires provider token and may cost money',done:videoJob?.status==='succeeded'||videoJob?.status==='successful'},{n:'05',title:'Review & export',sub:'Check accuracy, visuals, captions and licences',done:false}].map(x=><div className="workflow-row" key={x.n}><span className={`workflow-number ${x.done?'workflow-done':''}`}>{x.done?'✓':x.n}</span><div><strong>{x.title}</strong><span>{x.sub}</span></div><span className={`workflow-state ${x.done?'state-done':''}`}>{x.done?'Done':'Next'}</span></div>)}</div></div><div className="panel run-panel"><div className="overline">03 / SYSTEM STATUS</div><h3>Built for a careful creator.</h3><p>GoViral_Agent uses public sources and scoring rules for the research layer. AI video is optional and requires a configured model provider.</p><div className="status-row"><span className="status-mini good"/> Public research <b>Available</b></div><div className="status-row"><span className={`status-mini ${process.env.NODE_ENV==='production'?'good':'neutral'}`}/> Hosted video provider <b>Configure in Settings / README</b></div><button className="button button-outline button-full" onClick={() => setActive('settings')}>Configure access <span>→</span></button></div></section>
